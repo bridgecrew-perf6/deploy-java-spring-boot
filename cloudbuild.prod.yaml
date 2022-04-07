@@ -1,0 +1,28 @@
+# This CloudBuild will be triggered by push to main branch
+#
+
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args: ['echo', 'Building...']
+  id: BUILD
+  
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args: ['echo', 'Testing...']
+  id: TEST  
+  
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args:
+  - gcloud
+  - functions
+  - deploy
+  - $_FUNCTION_NAME
+  - --source=.
+  - --trigger-http
+  - --project=$_FUNCTION_PROJECT
+  - --entry-point=$_ENTRY_POINT
+  id: DEPLOY
+
+substitutions:
+    _FUNCTION_PROJECT : prod
+    _FUNCTION_NAME    : my-app
+    _ENTRY_POINT      : helloWorld
