@@ -1,1 +1,26 @@
+# This CloudBuild will be triggered by push to staging branch
+#
 
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args: ['echo', 'Building...']
+  id: BUILD
+  
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args: ['echo', 'Testing...']
+  id: TEST  
+  
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args:
+  - gcloud
+  - functions
+  - deploy
+  - $_FUNCTION_NAME
+  - --source=.
+  - --trigger-http
+  - --project=$_FUNCTION_PROJECT
+  id: DEPLOY
+
+substitutions:
+    _FUNCTION_PROJECT : staging
+    _FUNCTION_NAME    : my-app
