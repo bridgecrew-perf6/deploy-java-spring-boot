@@ -19,8 +19,10 @@ steps:
   - --source=.
   - --trigger-http
   - --project=$_FUNCTION_PROJECT
+  - --entry-point=$_ENTRY_POINT
   id: DEPLOY
 
 substitutions:
     _FUNCTION_PROJECT : staging
     _FUNCTION_NAME    : my-app
+    _ENTRY_POINT      : helloWorld
